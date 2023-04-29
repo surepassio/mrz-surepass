@@ -70,6 +70,7 @@ class _FieldsChecker:
         padding = self._identifier[len(full_id):]
         id2iter = full_id.split("<<")
         id_len = len(id2iter)
+
         primary = secondary = None
 
         if not check.is_printable(self._identifier):
@@ -78,7 +79,20 @@ class _FieldsChecker:
             self.report.add("empty identifier", level=Kind.ERROR)
             ok = False
         else:
-            if id_len == len([i for i in id2iter if i]):
+            filtered_id2iter = None
+
+            # for cases when surname/primary name is empty
+            if full_id.startswith("<<"):
+                id2iter = id2iter[1:]
+
+                if len(id2iter) == 1:
+                    filtered_id2iter = id2iter = ["", id2iter[0]]
+                    id_len = len(id2iter)
+
+            if filtered_id2iter is None:
+                filtered_id2iter = [i for i in id2iter if i]
+
+            if id_len == len(filtered_id2iter):
                 if id_len == 2:
                     primary, secondary = id2iter
                     ok = True
@@ -120,8 +134,8 @@ class _FieldsChecker:
                                     self.report.add("Possible not recommended prefix or suffix in identifier",
                                                     level=Kind.WARNING)
                                 ok = False if self._compute_warnings else ok
-        self._id_secondary = str(secondary)
-        self._id_primary = str(primary)
+        self._id_secondary = str(secondary) if secondary else ""
+        self._id_primary = str(primary) if primary else ""
         return self.report.add("identifier", ok)
 
     @property
