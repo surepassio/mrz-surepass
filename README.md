@@ -270,3 +270,18 @@ can modify any of the [examples](https://github.com/Arg0s1080/mrz/tree/master/ex
 
 - Right now I am very busy and have very little free time. Please, before creating an issue or consulting by email, 
 read [this issue](https://github.com/Arg0s1080/mrz/issues/31)
+
+
+### Uploading to PyPi
+1. Remove existing directories
+   ```shell
+   rm -r build dist
+   ```
+2. Build
+    ```shell
+     python3 setup.py sdist bdist_wheel
+    ```
+3. Upload to PyPi
+    ```shell
+     twine upload --verbose dist/*
+    ```

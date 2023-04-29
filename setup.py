@@ -15,14 +15,15 @@ if version_info < (3, 6):
 
 parent = path.abspath(path.dirname(__file__))
 
-with open(path.join(parent, "README.rst"), 'r', errors='ignore') as readme:
+with open(path.join(parent, "README.md"), encoding='utf-8') as readme:
     long_description = readme.read()
 
 setup(
-    name="mrz",
+    name="mrz-surepass",
     version=version,
     description="Machine readable zone generator and checker for passports, visas, id cards and other travel documents",
     license="GPLv3",
+    long_description_content_type='text/markdown',
     long_description=long_description,
     author='Rishabh Chauhan',
     author_email='rc@surepass.io',
